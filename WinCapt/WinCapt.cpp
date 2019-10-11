@@ -1,5 +1,4 @@
 #include <opencv2/opencv.hpp>
-#include <opencv2/highgui/highgui_c.h>
 #include <stdio.h>
 #include <windows.h>
 #include <windowsx.h>
