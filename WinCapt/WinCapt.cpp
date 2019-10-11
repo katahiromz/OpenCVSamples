@@ -63,17 +63,27 @@ void OnTimer(HWND hwnd, UINT id)
 
 void OnPaint(HWND hwnd)
 {
+    RECT rc;
+    GetClientRect(hwnd, &rc);
+
     PAINTSTRUCT ps;
     if (HDC hdc = BeginPaint(hwnd, &ps))
     {
+        SetStretchBltMode(hdc, COLORONCOLOR);
+
         EnterCriticalSection(&g_lock);
-        StretchDIBits(hdc, 0, 0, g_width, g_height,
+        StretchDIBits(hdc, 0, 0, rc.right - rc.left, rc.bottom - rc.top,
                       0, 0, g_width, g_height,
                       g_frame.data, &g_bi, DIB_RGB_COLORS, SRCCOPY);
         LeaveCriticalSection(&g_lock);
 
         EndPaint(hwnd, &ps);
     }
+}
+
+BOOL OnEraseBkgnd(HWND hwnd, HDC hdc)
+{
+    return TRUE;
 }
 
 INT_PTR CALLBACK
@@ -84,6 +94,7 @@ DialogProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         HANDLE_MSG(hwnd, WM_INITDIALOG, OnInitDialog);
         HANDLE_MSG(hwnd, WM_COMMAND, OnCommand);
         HANDLE_MSG(hwnd, WM_TIMER, OnTimer);
+        HANDLE_MSG(hwnd, WM_ERASEBKGND, OnEraseBkgnd);
         HANDLE_MSG(hwnd, WM_PAINT, OnPaint);
     }
     return 0;
