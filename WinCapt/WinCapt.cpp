@@ -20,7 +20,6 @@ CRITICAL_SECTION g_lock;
 
 BOOL OnInitDialog(HWND hwnd, HWND hwndFocus, LPARAM lParam)
 {
-    InitializeCriticalSection(&g_lock);
     assert(g_cap.isOpened());
 
     g_cap >> g_frame;
@@ -32,6 +31,8 @@ BOOL OnInitDialog(HWND hwnd, HWND hwndFocus, LPARAM lParam)
     g_bi.bmiHeader.biHeight = -g_height;
     g_bi.bmiHeader.biBitCount = 24;
     g_bi.bmiHeader.biCompression = BI_RGB;
+
+    InitializeCriticalSection(&g_lock);
 
     SetTimer(hwnd, 999, DWORD(1000 / g_fps), NULL);
 
