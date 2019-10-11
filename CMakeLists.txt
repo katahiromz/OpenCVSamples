@@ -53,6 +53,6 @@ find_package(OpenCV REQUIRED)
 
 ##############################################################################
 
-subdirs(Hello CameraCapture1 CameraCapture2 ConvertMovie BuildMovie)
+subdirs(Hello CameraCapture1 CameraCapture2 ConvertMovie BuildMovie WinCapt)
 
 ##############################################################################
